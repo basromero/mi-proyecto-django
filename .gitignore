@@ -1,0 +1,72 @@
+# ---- Archivos de Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ---- Entornos Virtuales ----
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+
+# ---- Archivos de dependencias ----
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ---- Archivos de Django ----
+*.log
+*.pot
+*.pyc
+*.pyo
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# ---- Archivos de migraciones compilados ----
+**/migrations/__pycache__/
+**/migrations/*.pyc
+# Si quieres ignorar TODAS las migraciones, descomenta la línea siguiente
+# **/migrations/
+
+# ---- IDEs / Editores ----
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ---- Sistema Operativo (Windows) ----
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---- Archivos temporales ----
+*.tmp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+
+# ---- Archivos de pytest / coverage ----
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+htmlcov/
+
+# ---- Archivos de docker (si aplica) ----
+*.pid
+*.seed
+*.pid.lock
+
+# ---- Archivos de cache de pip ----
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ---- Archivos de Jupyter (si usas notebooks en Django) ----
+.ipynb_checkpoints

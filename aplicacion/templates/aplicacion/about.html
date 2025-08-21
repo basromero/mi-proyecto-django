@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>{% block title %}Mi sitio{% endblock %}</title>
+  <meta charset="UTF-8">
+  <title>Segunda Página - ProyectoFront</title>
 </head>
 <body>
-  <header>
-    <h1>ProyectoFront</h1>
-    <nav>
-      <a href="{% url 'aplicacion:home' %}">Inicio</a> |
-      <a href="{% url 'aplicacion:about' %}">Acerca de</a>
-    </nav>
-    <hr />
-  </header>
+  <h1>ProyectoFront</h1>
+  <nav>
+    <a href="{% url 'aplicacion:home' %}">Inicio</a> |
+    <a href="{% url 'aplicacion:about' %}">Segunda página</a>
+  </nav>
+  <hr>
 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-
-  <footer>
-    <hr />
-    <small>&copy; {{ now|default:'2025' }}</small>
-  </footer>
+  <h2>Página segunda de tu app Pfront</h2>
+  <p>¡Felicitaciones! Ya puedes moverte entre páginas con enlaces simples.</p>
 </body>
 </html>
+
