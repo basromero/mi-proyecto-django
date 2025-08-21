@@ -1,4 +1,5 @@
-mi-proyecto-django/
+# Mi Proyecto Django
+trabajin/
 ├── aplicacion/ # Aplicación principal
 │ ├── migrations/ # Migraciones de la base de datos
 │ │ └── init.py
@@ -25,4 +26,5 @@ mi-proyecto-django/
 
 Descripción
 Este proyecto es una aplicación sencilla que muestra cómo manejar las partes básicas de Django: modelos, vistas, plantillas y migraciones. Está pensado para quienes comienzan a familiarizarse con Django y quieren entender su estructura y funcionamiento.
+
 
