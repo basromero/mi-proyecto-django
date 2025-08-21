@@ -20,4 +20,9 @@ mi-proyecto-django/
 │ └── wsgi.py
 ├── .gitignore # Archivos ignorados por Git
 ├── manage.py # Script principal de Django
+
 └── requirements.txt # Dependencias del proyecto
+
+Descripción
+Este proyecto es una aplicación sencilla que muestra cómo manejar las partes básicas de Django: modelos, vistas, plantillas y migraciones. Está pensado para quienes comienzan a familiarizarse con Django y quieren entender su estructura y funcionamiento.
+
