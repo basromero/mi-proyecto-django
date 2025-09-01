@@ -2,6 +2,7 @@
 trabajin/
 ├── aplicacion/ # Aplicación principal
 │ ├── migrations/ # Migraciones de la base de datos
+│ │ └── 0001_initial.py
 │ │ └── init.py
 │ ├── templates/aplicacion/ # Plantillas HTML
 │ │ ├── about.html
@@ -20,11 +21,13 @@ trabajin/
 │ ├── urls.py
 │ └── wsgi.py
 ├── .gitignore # Archivos ignorados por Git
+├── INTRUCCIONES.MD
+├── README.TXT
 ├── manage.py # Script principal de Django
-
 └── requirements.txt # Dependencias del proyecto
 
 Descripción
 Este proyecto es una aplicación sencilla que muestra cómo manejar las partes básicas de Django: modelos, vistas, plantillas y migraciones. Está pensado para quienes comienzan a familiarizarse con Django y quieren entender su estructura y funcionamiento.
+
 
 
