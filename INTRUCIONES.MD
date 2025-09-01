@@ -74,11 +74,20 @@ urlpatterns = [
     path('', include('Pfront.urls')),  # 👈 conectamos la app
 ]
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-🔟 Probar el servidor
-python manage.py migrate   # preparar base de datos inicial
-python manage.py runserver
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-modificacion a system.py
+🔟 Configurar settings.py para templates y registrar la app
+
+En proyectofront/settings.py:
+
+Agregar la app en INSTALLED_APPS:
+
+INSTALLED_APPS = [
+    # apps por defecto...
+    'Pfront',
+]
+
+
+Configurar la sección TEMPLATES para que use templates dentro de apps (generalmente ya está así):
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -89,9 +98,6 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-
-
-
                 'django.contrib.messages.context_processors.messages',
             ],
         },
