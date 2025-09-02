@@ -1,6 +1,6 @@
 1️⃣ Crear la carpeta contenedora y entrar en ella
 mkdir ProyectoFront
-cd ProyectoFront
+cd  Ruta de tu carpeta
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 2️⃣ Crear y activar un ambiente virtual
 # Crear ambiente virtual
@@ -31,6 +31,9 @@ Crear el archivo home.html:
 
 New-Item Pfront\templates\Pfront\home.html -ItemType File
 
+
+Después tendríamos que abrir visual studio y abrir nuestra carpeta y nos dirigimos a Pfrot y dentro de Pfront nos vamos a template y colocamos el código HTML que esta abajo
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -53,25 +56,29 @@ def home(request):
 
 Archivo Pfront/urls.py:
 
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
+ 
 
 app_name = 'Pfront'
-
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('admin/', admin.site.urls),
+    path('', include('Pfront.urls')),
 ]
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 9️⃣ Conectar la app al proyecto principal
 
-En proyectofront/urls.py:
+En proyectofront/ copiamos el archivo urls.py y después nos dirigimos a la carpeta Pfront(como se llame tu app)y lo pegas dentro de la carpeta
 
+Esta es la estructura que nos debriamos pegar 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from . import views 
 
+app_name = 'Pfront'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('Pfront.urls')),  # 👈 conectamos la app
+    path('', views.home, name='home'),
 ]
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 🔟 Configurar settings.py para templates y registrar la app
@@ -84,6 +91,11 @@ INSTALLED_APPS = [
     # apps por defecto...
     'Pfront',
 ]
+
+Despus en powersshell corremos estos comandos
+python manage.py migrate   # preparar base de datos inicial
+python manage.py runserver
+
 
 
 Configurar la sección TEMPLATES para que use templates dentro de apps (generalmente ya está así):
@@ -103,9 +115,10 @@ TEMPLATES = [
         },
     },
 ]
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 1️⃣1️⃣ Crear el modelo de datos en Pfront/models.py
-from django.db import models
 
 from django.db import models
 
@@ -197,9 +210,79 @@ class Proveedor(models.Model):
 Editar Pfront/admin.py y añadir:
 
 from django.contrib import admin
-from .models import Producto
+from .models import Cliente, Empleado, Categoria, Producto, Orden, DetalleOrden, Proveedor
 
-admin.site.register(Producto)
+@admin.register(Cliente)
+class ClienteAdmin(admin.ModelAdmin):
+    list_display = ('id_cliente', 'cli_nombre', 'cli_ciudad', 'cli_pais', 'cli_mail')
+    search_fields = ('cli_nombre', 'cli_ciudad', 'cli_pais')
+
+@admin.register(Empleado)
+class EmpleadoAdmin(admin.ModelAdmin):
+    list_display = ('id_empleado', 'emp_nombre', 'emp_apellido', 'emp_mail', 'emp_fecha_nac')
+    search_fields = ('emp_nombre', 'emp_apellido', 'emp_mail')
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+    list_display = ('id_categoria', 'cat_nombre')
+    search_fields = ('cat_nombre',)
+
+@admin.register(Producto)
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = ('id_producto', 'pro_nombre', 'id_categoria', 'pro_precio', 'pro_stock')
+    list_filter = ('id_categoria',)
+    search_fields = ('pro_nombre',)
+
+@admin.register(Orden)
+class OrdenAdmin(admin.ModelAdmin):
+    list_display = ('id_orden', 'id_cliente', 'id_empleado', 'ord_fecha')
+    list_filter = ('ord_fecha',)
+    search_fields = ('id_cliente__cli_nombre', 'id_empleado__emp_nombre')
+
+@admin.register(DetalleOrden)
+class DetalleOrdenAdmin(admin.ModelAdmin):
+    list_display = ('id_detord', 'id_producto', 'deo_precio', 'deo_cantidad', 'id_orden')
+    search_fields = ('id_producto__pro_nombre',)
+
+@admin.register(Proveedor)
+class ProveedorAdmin(admin.ModelAdmin):
+    list_display = ('id_proveedor', 'prv_empresa', 'prv_contacto', 'prv_telefono')
+    search_fields = ('prv_empresa', 'prv_contacto')
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1️⃣3️⃣ Generar scripts de migración
+
+Una vez que el proyecto se crea, lo hace conjuntamente con la base de datos que está en el directorio del proyecto donde se encuentra manage.py, de esta forma una vez creado el modelo en models.py de la aplicación se realiza la creación de los scripts para una migración con el fin de aplicar modelo en el archivo de base de datos llamado db.sqlite3.
+
+(Opcional) Podemos instalar en vs code la extensión de SQLITE para así poder visualizar los datos dentro de vs code
+
+Luego ejecutamos la migración con el comando:
+
+python manage.py makemigrations
+
+Luego al crear la base de datos
+
+Para aplicar el script creado en la base de datos se debe ejecutar el siguiente comando:
+
+python manage.py migrate
+
+1️⃣4️⃣ Crear un superusuario
+
+python manage.py createsuperuser
+
+Sigue las instrucciones para definir usuario y contraseña.
+
+1️⃣5️⃣ Ejecutar el servidor y probar
+python manage.py runserver
+
+
+Acceder a la página principal:
+http://127.0.0.1:8000/
+
+Acceder al admin y gestionar productos:
+http://127.0.0.1:8000/admin/
+
+
+
 
 
 
