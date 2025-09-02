@@ -1,6 +1,6 @@
 1️⃣ Crear la carpeta contenedora y entrar en ella
 mkdir ProyectoFront
-cd  Ruta de tu carpeta
+cd  C:\Users\Bastian\Desktop\trabajin(Ruta de la carpeta)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 2️⃣ Crear y activar un ambiente virtual
 # Crear ambiente virtual
@@ -21,18 +21,20 @@ pip freeze > requirements.txt
 django-admin startproject proyectofront .
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 5️⃣ Crear la app principal
-python manage.py startapp Pfront
+python manage.py startapp aplicacion
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 6️⃣ Crear carpeta de templates dentro de la app
-mkdir Pfront\templates
-mkdir Pfront\templates\Pfront
+mkdir aplicacion\templates
+mkdir aplicacion\templates\aplicacion
 
 Crear el archivo home.html:
 
-New-Item Pfront\templates\Pfront\home.html -ItemType File
+New-Item aplicacion\templates\aplicacion\home.html -ItemType File
+
+New-Item aplicacion\templates\aplicacion\about.html -ItemType File
 
 
-Después tendríamos que abrir visual studio y abrir nuestra carpeta y nos dirigimos a Pfrot y dentro de Pfront nos vamos a template y colocamos el código HTML que esta abajo
+Después tendríamos que abrir visual studio y abrir nuestra carpeta y nos dirigimos a aplicacion y dentro de aplicacion nos vamos a template y colocamos el código HTML que esta abajo
 
 <!DOCTYPE html>
 <html lang="es">
@@ -46,24 +48,27 @@ Después tendríamos que abrir visual studio y abrir nuestra carpeta y nos dirig
 </body>
 </html>
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-7️⃣ Definir la vista en Pfront/views.py
+7️⃣ Definir la vista en aplicacion/views.py
+
 from django.shortcuts import render
-
+# Create your views here.
 def home(request):
-    return render(request, 'Pfront/home.html')
+    return render(request, 'aplicacion/home.html')
+def about(request):
+    return render(request, 'aplicacion/about.html')
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-8️⃣ Crear rutas de la app Pfront
+8️⃣ Crear rutas de la app aplicacion
 
-Archivo Pfront/urls.py:
+Archivo aplicacion/urls.py:
 
 from django.contrib import admin
 from django.urls import path, include
- 
-
-app_name = 'Pfront'
+from . import views
+app_name = 'aplicacion'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('Pfront.urls')),
+    path('', views.home, name='home'),
+    path('about/', views.about, name='about'),
 ]
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 9️⃣ Conectar la app al proyecto principal
@@ -89,12 +94,13 @@ Agregar la app en INSTALLED_APPS:
 
 INSTALLED_APPS = [
     # apps por defecto...
-    'Pfront',
+    'aplicacion',
 ]
 
 Despus en powersshell corremos estos comandos
 python manage.py migrate   # preparar base de datos inicial
 python manage.py runserver
+(Para asegurarnos de que corren las páginas web y el servidor)
 
 
 
@@ -118,7 +124,7 @@ TEMPLATES = [
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-1️⃣1️⃣ Crear el modelo de datos en Pfront/models.py
+1️⃣1️⃣ Crear el modelo de datos en aplicacion/models.py
 
 from django.db import models
 
@@ -207,43 +213,37 @@ class Proveedor(models.Model):
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 1️⃣2️⃣ Registrar el modelo en admin para gestionarlo desde la interfaz web
 
-Editar Pfront/admin.py y añadir:
+Editar aplicacion/admin.py y añadir:
+
 
 from django.contrib import admin
 from .models import Cliente, Empleado, Categoria, Producto, Orden, DetalleOrden, Proveedor
-
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ('id_cliente', 'cli_nombre', 'cli_ciudad', 'cli_pais', 'cli_mail')
     search_fields = ('cli_nombre', 'cli_ciudad', 'cli_pais')
-
 @admin.register(Empleado)
 class EmpleadoAdmin(admin.ModelAdmin):
     list_display = ('id_empleado', 'emp_nombre', 'emp_apellido', 'emp_mail', 'emp_fecha_nac')
     search_fields = ('emp_nombre', 'emp_apellido', 'emp_mail')
-
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ('id_categoria', 'cat_nombre')
     search_fields = ('cat_nombre',)
-
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ('id_producto', 'pro_nombre', 'id_categoria', 'pro_precio', 'pro_stock')
     list_filter = ('id_categoria',)
     search_fields = ('pro_nombre',)
-
 @admin.register(Orden)
 class OrdenAdmin(admin.ModelAdmin):
     list_display = ('id_orden', 'id_cliente', 'id_empleado', 'ord_fecha')
     list_filter = ('ord_fecha',)
     search_fields = ('id_cliente__cli_nombre', 'id_empleado__emp_nombre')
-
 @admin.register(DetalleOrden)
 class DetalleOrdenAdmin(admin.ModelAdmin):
     list_display = ('id_detord', 'id_producto', 'deo_precio', 'deo_cantidad', 'id_orden')
     search_fields = ('id_producto__pro_nombre',)
-
 @admin.register(Proveedor)
 class ProveedorAdmin(admin.ModelAdmin):
     list_display = ('id_proveedor', 'prv_empresa', 'prv_contacto', 'prv_telefono')
@@ -265,11 +265,15 @@ Para aplicar el script creado en la base de datos se debe ejecutar el siguiente 
 
 python manage.py migrate
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 1️⃣4️⃣ Crear un superusuario
 
 python manage.py createsuperuser
 
 Sigue las instrucciones para definir usuario y contraseña.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 1️⃣5️⃣ Ejecutar el servidor y probar
 python manage.py runserver
@@ -282,49 +286,7 @@ Acceder al admin y gestionar productos:
 http://127.0.0.1:8000/admin/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Requisitos de entorno
 Python: 3.8 o superior (idealmente 3.10+).
